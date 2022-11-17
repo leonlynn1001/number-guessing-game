@@ -12,23 +12,34 @@ let score = Number(userScroe.textContent);
 
 console.log(typeof userScroe.textContent);
 let userHightScore = parseInt(highScroe.textContent);
+const displayMessage = (text) => (message.textContent = text);
 checkBtn.addEventListener("click", () => {
   //console.log(guess.value);
   let inputValue = Number(guess.value);
   if (!inputValue) {
-    message.textContent = "Type a number to guess....";
-  } else if (inputValue > luckyNumber) {
-    message.textContent = "Too High...";
-    //for score marks
-    score -= 1;
-    userScroe.textContent = score;
-  } else if (inputValue < luckyNumber) {
-    message.textContent = "Too Low...";
-    //for score marks
-    score -= 1;
-    userScroe.textContent = score;
+    displayMessage("Type a number to guess....");
+    //message.textContent = "Type a number to guess....";
+  } else if (inputValue !== luckyNumber) {
+    if (score > 0) {
+      displayMessage(inputValue > luckyNumber ? "Too High..." : "Too Low...");
+      score--;
+      userScroe.textContent = score;
+    } else {
+      message.textContent = "You Lose the game....";
+      userScroe.textContent = 0;
+    }
+    // } else if (inputValue > luckyNumber) {
+    //   message.textContent = "Too High...";
+    //   //for score marks
+    //   score -= 1;
+    //   userScroe.textContent = score;
+    // } else if (inputValue < luckyNumber) {
+    //   message.textContent = "Too Low...";
+    //   //for score marks
+    //   score -= 1;
+    //   userScroe.textContent = score;
   } else if (inputValue === luckyNumber) {
-    message.textContent = "Congratulations!You are Correct...";
+    displayMessage("Congratulations!You are Correct...");
     document.querySelector("body").style.backgroundColor = "green";
     //for highscore
 
@@ -49,7 +60,7 @@ againBtn.addEventListener("click", () => {
   guess.value = "";
   number.textContent = "?";
   luckyNumber = Math.trunc(Math.random() * 20) + 1;
-  message.textContent = "Start Guessing...";
+  displayMessage("Start Guessing...");
   userScroe.textContent = Number(20);
 
   if (score > userHightScore) {
